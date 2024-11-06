@@ -1,4 +1,4 @@
-# COCO-JSON-to-YOLO-Segmentation-Converter
+# COCO JSON Segmentation to YOLO Converter
 
 A robust Python utility for converting COCO format annotations to YOLO format, with full support for instance segmentation masks and bounding boxes. Compatible with YOLOv8 and YOLOv11 segmentation models.
 
