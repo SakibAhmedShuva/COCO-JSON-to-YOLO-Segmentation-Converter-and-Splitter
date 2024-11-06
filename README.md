@@ -33,6 +33,13 @@ output_directory/
 └── data.yaml
 ```
 
+Sample data provided in the below folders:
+
+./annotations
+
+./images
+
+
 ## 📝 Output Format
 
 ### Segmentation Format
