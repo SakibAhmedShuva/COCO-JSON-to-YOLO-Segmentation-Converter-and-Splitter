@@ -1,9 +1,10 @@
-# COCO JSON to YOLO Segmentation Converter
+# COCO JSON to YOLO Segmentation Converter and Splitter
 
-A robust Python utility for converting COCO format annotations to YOLO format, with full support for instance segmentation masks and bounding boxes. Compatible with YOLOv8 and YOLOv11 segmentation models.
+A robust Python utility for converting COCO format annotations to YOLO format and automatically splitting the dataset into train/validation/test sets. Features full support for instance segmentation masks and bounding boxes, compatible with YOLOv8 and YOLOv11 segmentation models.
 
 ## 🔍 Key Features
 
+- **Automatic Dataset Splitting**: Splits data into train/validation/test sets with configurable ratios
 - **Full Segmentation Support**: Converts COCO polygon segmentation masks to YOLO format
 - **Bounding Box Support**: Also handles traditional bounding box annotations
 - **YOLOv8/v11 Compatible**: Generated annotations work with latest YOLO versions
@@ -17,28 +18,37 @@ A robust Python utility for converting COCO format annotations to YOLO format, w
 pip install -r requirements.txt
 ```
 
-
 ## 📁 Output Structure
 
 ```
 output_directory/
-├── images/
-│   ├── image1.jpg
-│   ├── image2.jpg
-│   └── ...
-├── labels/
-│   ├── image1.txt
-│   ├── image2.txt
-│   └── ...
+├── train/
+│   ├── images/
+│   │   ├── image1.jpg
+│   │   └── ...
+│   └── labels/
+│       ├── image1.txt
+│       └── ...
+├── valid/
+│   ├── images/
+│   │   ├── image2.jpg
+│   │   └── ...
+│   └── labels/
+│       ├── image2.txt
+│       └── ...
+├── test/  # (optional)
+│   ├── images/
+│   │   ├── image3.jpg
+│   │   └── ...
+│   └── labels/
+│       ├── image3.txt
+│       └── ...
 └── data.yaml
 ```
 
 Sample data provided in the below folders:
-
-./annotations
-
-./images
-
+- ./annotations
+- ./images
 
 ## 📝 Output Format
 
@@ -59,6 +69,21 @@ For bounding boxes, each line follows the standard YOLO format:
 
 ## ⚙️ Configuration
 
+### Data Splitting
+The converter supports flexible dataset splitting with configurable ratios:
+```python
+coco_to_yolo(
+    coco_json_path='path/to/annotations.json',
+    image_dir='path/to/images',
+    output_dir='yolo-output',
+    train_ratio=0.8,    # 80% for training
+    val_ratio=0.2,      # 20% for validation
+    test_ratio=0.0,     # Optional test set
+    seed=42            # For reproducible splits
+)
+```
+
+### YAML Configuration
 The script automatically generates a `data.yaml` file containing:
 - Training, validation, and test set paths
 - Number of classes
@@ -66,11 +91,12 @@ The script automatically generates a `data.yaml` file containing:
 
 ## 🔰 Important Notes
 
-1. **Segmentation Priority**: The converter prioritizes segmentation masks over bounding boxes when both are present
-2. **Coordinate Normalization**: All coordinates are automatically normalized to the 0-1 range
-3. **Instance Handling**: Properly handles multiple instances per image
-4. **RLE Support**: Can process both polygon and RLE mask formats
-5. **Crowd Annotations**: Filters out crowd annotations (iscrowd=1)
+1. **Dataset Splitting**: Random but deterministic splitting based on provided seed
+2. **Segmentation Priority**: The converter prioritizes segmentation masks over bounding boxes when both are present
+3. **Coordinate Normalization**: All coordinates are automatically normalized to the 0-1 range
+4. **Instance Handling**: Properly handles multiple instances per image
+5. **RLE Support**: Can process both polygon and RLE mask formats
+6. **Crowd Annotations**: Filters out crowd annotations (iscrowd=1)
 
 ## ⚠️ Requirements
 
@@ -83,6 +109,7 @@ The script automatically generates a `data.yaml` file containing:
 - Efficiently handles large datasets
 - Memory-optimized for processing large annotation files
 - Progress bar indicates conversion status
+- Maintains data distribution across splits
 
 ## 🤝 Contributing
 
