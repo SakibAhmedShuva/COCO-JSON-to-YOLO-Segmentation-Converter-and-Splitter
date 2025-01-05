@@ -12,6 +12,9 @@ A robust Python utility for converting COCO format annotations to YOLO format an
 - **Progress Tracking**: Uses tqdm for conversion progress visualization
 - **Maintains Directory Structure**: Organizes output in YOLO-compatible directory structure
 
+
+**use "coco2yolo-seg-splitter.ipynb" if you need to split your data.**
+
 ## 📋 Prerequisites
 
 ```bash
